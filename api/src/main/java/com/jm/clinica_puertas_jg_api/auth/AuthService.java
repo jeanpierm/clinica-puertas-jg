@@ -1,9 +1,15 @@
 package com.jm.clinica_puertas_jg_api.auth;
 
+import java.util.List;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Service;
+
 import com.jm.clinica_puertas_jg_api.auth.dto.RefreshResponseDto;
 import com.jm.clinica_puertas_jg_api.auth.dto.SignInResponseDto;
 import com.jm.clinica_puertas_jg_api.auth.dto.SignUpResponseDto;
-import com.jm.clinica_puertas_jg_api.exceptions.NotFoundException;
 import com.jm.clinica_puertas_jg_api.exceptions.UnauthorizedException;
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleName;
@@ -11,14 +17,9 @@ import com.jm.clinica_puertas_jg_api.role.RoleService;
 import com.jm.clinica_puertas_jg_api.security.JwtProvider;
 import com.jm.clinica_puertas_jg_api.user.User;
 import com.jm.clinica_puertas_jg_api.user.UserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
