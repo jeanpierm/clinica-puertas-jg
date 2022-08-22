@@ -1,11 +1,11 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Card, Container, Link, Typography, styled } from '@mui/material';
 import React from 'react';
-import Page from '../components/Page';
+import Page from '../../../components/Page';
 import LoginForm from '../components/LoginForm';
 import AuthSocial from '../components/AuthSocial';
-import useResponsive from '../hooks/useResponsive';
-import Logo from '../components/Logo';
+import useResponsive from '../../../hooks/useResponsive';
+import Logo from '../../../components/Logo';
 
 // ------------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
 
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don't have an account? {''}
+              Don&apos;t have an account? {''}
               <Link variant="subtitle2" component={RouterLink} to="/register">
                 Get started
               </Link>
@@ -109,7 +109,7 @@ const LoginPage: React.FC = () => {
                 align="center"
                 sx={{ mt: 3 }}
               >
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link variant="subtitle2" component={RouterLink} to="/register">
                   Get started
                 </Link>

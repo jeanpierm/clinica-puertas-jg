@@ -8,8 +8,8 @@ type PageProps = {
   meta?: React.ReactNode;
 };
 
-const Page: React.FC<PageProps> = forwardRef(
-  ({ children, title = '', meta, ...rest }, ref) => {
+const Page = forwardRef(
+  ({ children, title = '', meta, ...rest }: PageProps, ref) => {
     return (
       <>
         <Helmet>
@@ -24,5 +24,7 @@ const Page: React.FC<PageProps> = forwardRef(
     );
   }
 );
+
+Page.displayName = 'Page';
 
 export default Page;

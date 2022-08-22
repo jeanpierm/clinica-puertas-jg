@@ -3,28 +3,47 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
   Box,
-  Button,
   IconButton,
+  styled,
   Toolbar,
   Typography,
 } from '@mui/material';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import useResponsive from '../../hooks/useResponsive';
+import useResponsive from '../../../hooks/useResponsive';
 import AccountPopover from './AccountPopover';
-import { navItems } from './data/navItems';
+import { DRAWER_WIDTH } from './DashboardDrawer';
 
 type Props = { handleDrawerToggle: VoidFunction };
 
-const LEGEND = 'J & G';
+const LEGEND_DESKTOP = 'CLÍNICA DE PUERTAS DE CARROS J & G';
+const LEGEND_MOBILE = 'J & G';
+export const APPBAR_MOBILE = 64;
+export const APPBAR_DESKTOP = 72;
+
+const RootStyle = styled(AppBar)(({ theme }) => ({
+  [theme.breakpoints.up('lg')]: {
+    width: `calc(100% - ${DRAWER_WIDTH + 1}px)`,
+  },
+}));
+
+const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
+  minHeight: APPBAR_MOBILE,
+  display: 'flex',
+  justifyContent: 'space-between',
+  [theme.breakpoints.up('lg')]: {
+    minHeight: APPBAR_DESKTOP,
+    padding: theme.spacing(0, 5),
+  },
+}));
 
 const DashboardNavbar: React.FC<Props> = ({ handleDrawerToggle }) => {
-  const isMobile = useResponsive('down', 'sm');
+  const isDesktop = useResponsive('up', 'lg');
 
   return (
-    <AppBar position="static">
-      <Toolbar sx={{ justifyContent: { xs: 'space-between' } }}>
-        {isMobile && (
+    <RootStyle>
+      <ToolbarStyle>
+        {!isDesktop && (
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -50,30 +69,14 @@ const DashboardNavbar: React.FC<Props> = ({ handleDrawerToggle }) => {
               mr: 2,
             }}
           >
-            {LEGEND}
+            {isDesktop ? LEGEND_DESKTOP : LEGEND_MOBILE}
           </Typography>
         </Box>
-
-        {!isMobile && (
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            {navItems.map(({ path, label }) => (
-              <Button
-                key={path}
-                component={RouterLink}
-                to={path}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {label}
-              </Button>
-            ))}
-          </Box>
-        )}
-
         <Box sx={{ flexGrow: 0 }}>
           <AccountPopover />
         </Box>
-      </Toolbar>
-    </AppBar>
+      </ToolbarStyle>
+    </RootStyle>
   );
 };
 

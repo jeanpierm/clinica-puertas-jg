@@ -52,4 +52,8 @@ public class User {
     public List<RoleName> getRoleNames() {
         return this.roles.stream().map(Role::getName).toList();
     }
+
+    public String getDisplayName() {
+        return this.name + " " + this.surname;
+    }
 }

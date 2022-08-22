@@ -1,11 +1,11 @@
 import { createContext, useContext } from 'react';
-import { LoginRequest, LoginResponse } from '../interfaces/auth';
-import { User } from '../interfaces/user';
+import { LoginRequest } from '../features/auth/interfaces/login';
+import { User } from '../features/dashboard/interfaces/user';
 
 export type AuthContextProps = {
   currentUser: User;
-  signIn: (body: LoginRequest) => Promise<void>;
-  signOut: VoidFunction;
+  login: (body: LoginRequest) => Promise<void>;
+  logout: VoidFunction;
   refresh: () => Promise<void>;
 };
 

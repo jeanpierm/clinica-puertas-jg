@@ -9,18 +9,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { stringAvatar } from '../../utils/stringAvatar';
+import { useAuth } from '../../../contexts/AuthContext';
+import { stringAvatar } from '../../../utils/stringAvatar';
 
 const settings = ['Account', 'Dashboard'];
 
 const AccountPopover = () => {
   const [open, setOpen] = useState<null | HTMLElement>(null);
-  const { currentUser: account, signOut } = useAuth();
+  const { currentUser: account, logout: signOut } = useAuth();
   const displayName = `${account.name} ${account.surname}`;
-  const nameFirstLetter = account.name ? account.name[0] : 'J';
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);

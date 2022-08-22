@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from '../../dashboard/interfaces/user';
 
 export interface LoginRequest {
   username: string;
@@ -9,5 +9,3 @@ export interface LoginResponse {
   accessToken: string;
   userData: User;
 }
-
-export interface RefreshResponse extends LoginResponse {}

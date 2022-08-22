@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import FullScreenLoader from './FullScreenLoader';
+import FullScreenLoader from '../components/FullScreenLoader';
 
 type Props = { children: JSX.Element };
-const NoRequireAuth: React.FC<Props> = ({ children }) => {
+const NoRequireAuthGuard: React.FC<Props> = ({ children }) => {
   const { currentUser, refresh } = useAuth();
   const [checking, setChecking] = useState(true);
 
@@ -22,4 +22,4 @@ const NoRequireAuth: React.FC<Props> = ({ children }) => {
   return children;
 };
 
-export default NoRequireAuth;
+export default NoRequireAuthGuard;

@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -8,10 +8,10 @@ type LogoProps = {
 };
 
 const Logo: React.FC<LogoProps> = ({ disabledLink = false, sx }) => {
-  const theme = useTheme();
-  const PRIMARY_LIGHT = theme.palette.primary.light;
-  const PRIMARY_MAIN = theme.palette.primary.main;
-  const PRIMARY_DARK = theme.palette.primary.dark;
+  // const theme = useTheme();
+  // const PRIMARY_LIGHT = theme.palette.primary.light;
+  // const PRIMARY_MAIN = theme.palette.primary.main;
+  // const PRIMARY_DARK = theme.palette.primary.dark;
 
   // OR
   // const logo = <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />

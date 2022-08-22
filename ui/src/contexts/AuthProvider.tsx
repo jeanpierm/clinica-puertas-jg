@@ -1,11 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import {
-  LoginRequest,
-  LoginResponse,
-  RefreshResponse,
-} from '../interfaces/auth';
-import { User } from '../interfaces/user';
+import { LoginRequest, LoginResponse } from '../features/auth/interfaces/login';
+import { RefreshResponse } from '../features/auth/interfaces/refresh';
+import { User } from '../features/dashboard/interfaces/user';
 import { AuthContext } from './AuthContext';
 
 type Props = {
@@ -18,7 +15,7 @@ const REFRESH_API = 'api/auth/refresh';
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>(null!);
 
-  const signIn = async (body: LoginRequest) => {
+  const login = async (body: LoginRequest) => {
     const res = await axios.post<LoginResponse>(LOGIN_API, body);
     const { accessToken, userData } = res.data;
 
@@ -26,7 +23,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setCurrentUser(userData);
   };
 
-  const signOut = () => {
+  const logout = () => {
     localStorage.clear();
     setCurrentUser(null!);
   };
@@ -34,7 +31,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const refresh = async () => {
     const jwt = localStorage.getItem('accessToken');
     if (!jwt) {
-      signOut();
+      logout();
       return;
     }
 
@@ -46,7 +43,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       localStorage.setItem('accessToken', accessToken);
       setCurrentUser(userData);
     } catch (err) {
-      signOut();
+      logout();
     }
   };
 
@@ -54,8 +51,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     <AuthContext.Provider
       value={{
         currentUser,
-        signIn,
-        signOut,
+        login,
+        logout,
         refresh,
       }}
     >

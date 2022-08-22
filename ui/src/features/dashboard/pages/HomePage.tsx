@@ -1,7 +1,6 @@
-import { Link, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const HomePage: React.FC = () => {
   const auth = useAuth();
@@ -18,7 +17,7 @@ const HomePage: React.FC = () => {
       </Typography>
 
       <div>
-        <button onClick={() => auth.signOut()}>Logout</button>
+        <button onClick={() => auth.logout()}>Logout</button>
       </div>
     </>
   );

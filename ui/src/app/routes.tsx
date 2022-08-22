@@ -1,21 +1,22 @@
 import { RouteObject } from 'react-router-dom';
-import NoRequireAuth from '../components/NoRequireAuth';
-import RequireAuth from '../components/RequireAuth';
-import DashboardLayout from '../layouts/dashboard/DashboardLayout';
-import AlarmsPage from '../pages/AlarmsPage';
-import DoorLocksPage from '../pages/DoorLocksPage';
-import ElevatorsPage from '../pages/ElevatorsPage';
-import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
+import NoRequireAuthGuard from '../guards/NoRequireAuthGuard';
+import RequireAuthGuard from '../guards/RequireAuthGuard';
+import UsersPage from '../features/dashboard/pages/UsersPage';
+import AlarmsPage from '../features/dashboard/pages/AlarmsPage';
+import DoorLocksPage from '../features/dashboard/pages/DoorLocksPage';
+import ElevatorsPage from '../features/dashboard/pages/ElevatorsPage';
+import LoginPage from '../features/auth/pages/LoginPage';
+import RegisterPage from '../features/auth/pages/RegisterPage';
+import HomePage from '../features/dashboard/pages/HomePage';
+import DashboardLayout from '../features/dashboard/layout/DashboardLayout';
 
 export const routes: RouteObject[] = [
   {
     path: 'login',
     element: (
-      <NoRequireAuth>
+      <NoRequireAuthGuard>
         <LoginPage />
-      </NoRequireAuth>
+      </NoRequireAuthGuard>
     ),
   },
   {
@@ -25,15 +26,16 @@ export const routes: RouteObject[] = [
   {
     path: '/',
     element: (
-      <RequireAuth>
+      <RequireAuthGuard>
         <DashboardLayout />
-      </RequireAuth>
+      </RequireAuthGuard>
     ),
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/seguros', element: <DoorLocksPage /> },
       { path: '/elevadores', element: <ElevatorsPage /> },
       { path: '/alarmas', element: <AlarmsPage /> },
+      { path: '/usuarios', element: <UsersPage /> },
     ],
   },
 ];

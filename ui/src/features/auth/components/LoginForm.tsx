@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
 type FormData = {
   email: string;
@@ -51,19 +51,16 @@ const LoginForm: React.FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const from = (location.state as any)?.from?.pathname || '/';
 
-  const onSubmit: SubmitHandler<FormData> = async ({
-    email,
-    password,
-    remember,
-  }) => {
+  const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     const loginRequest = {
       username: email,
       password,
     };
     try {
-      await auth.signIn(loginRequest);
+      await auth.login(loginRequest);
       // Send them back to the page they tried to visit when they were
       // redirected to the login page. Use { replace: true } so we don't create
       // another entry in the history stack for the login page.  This means that
@@ -74,7 +71,7 @@ const LoginForm: React.FC = () => {
     } catch (err) {
       if (!axios.isAxiosError(err)) return;
 
-      auth.signOut();
+      auth.logout();
       if (err.response?.status === 401) {
         window.alert('Invalid credentials');
         return;
