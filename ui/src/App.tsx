@@ -1,10 +1,16 @@
 import { useRoutes } from 'react-router-dom';
-import { routes } from './app/routes';
+import { routes } from './routes';
+import Notification from './components/Notification';
 
 function App() {
   const content = useRoutes(routes);
 
-  return <>{content}</>;
+  return (
+    <>
+      <Notification />
+      {content}
+    </>
+  );
 }
 
 export default App;

@@ -8,22 +8,20 @@ type PageProps = {
   meta?: React.ReactNode;
 };
 
-const Page = forwardRef(
-  ({ children, title = '', meta, ...rest }: PageProps, ref) => {
-    return (
-      <>
-        <Helmet>
-          <title>{`${title}`}</title>
-          {meta}
-        </Helmet>
+const Page = forwardRef(({ children, title = '', meta, ...rest }: PageProps, ref) => {
+  return (
+    <>
+      <Helmet>
+        <title>{`${title}`}</title>
+        {meta}
+      </Helmet>
 
-        <Box ref={ref} {...rest}>
-          {children}
-        </Box>
-      </>
-    );
-  }
-);
+      <Box ref={ref} {...rest}>
+        {children}
+      </Box>
+    </>
+  );
+});
 
 Page.displayName = 'Page';
 

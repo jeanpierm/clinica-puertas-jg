@@ -15,13 +15,7 @@ const Logo: React.FC<LogoProps> = ({ disabledLink = false, sx }) => {
 
   // OR
   // const logo = <Box component="img" src="/static/logo.svg" sx={{ width: 40, height: 40, ...sx }} />
-  const logo = (
-    <Box
-      component="img"
-      src="/static/logo.jpg"
-      sx={{ width: 64, height: 64, ...sx }}
-    />
-  );
+  const logo = <Box component='img' src='/static/logo.jpg' sx={{ width: 64, height: 64, ...sx }} />;
 
   // const logo = (
   //   <Box sx={{ width: 40, height: 40, ...sx }}>
@@ -68,7 +62,7 @@ const Logo: React.FC<LogoProps> = ({ disabledLink = false, sx }) => {
     return <>{logo}</>;
   }
 
-  return <RouterLink to="/">{logo}</RouterLink>;
+  return <RouterLink to='/'>{logo}</RouterLink>;
 };
 
 export default Logo;
