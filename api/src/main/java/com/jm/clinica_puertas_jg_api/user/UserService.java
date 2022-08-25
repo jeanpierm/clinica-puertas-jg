@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -47,11 +49,20 @@ public class UserService {
         return createdUser;
     }
 
+    @Transactional
     public void updateById(Long id, User user) {
-        var userEntity = findById(id);
-        userEntity.setEmail(user.getEmail());
-        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
-        userEntity.setRoles(user.getRoles());
+        User userEntity = findById(id);
+        if (StringUtils.hasText(user.getName()))
+            userEntity.setName(user.getName());
+        if (StringUtils.hasText(user.getSurname()))
+            userEntity.setSurname(user.getSurname());
+        if (StringUtils.hasText(user.getEmail()))
+            userEntity.setEmail(user.getEmail());
+        if (StringUtils.hasText(user.getPassword()))
+            userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!user.getRoles().isEmpty())
+            userEntity.setRoles(user.getRoles());
+
         log.info("Updated user with username {}", userEntity.getUsername());
     }
 

@@ -50,6 +50,7 @@ public class UserController {
     @PutMapping(path = "{id}")
     public ResponseEntity<Void> put(@PathVariable Long id, @Valid @RequestBody UserDto user) {
         User userToUpdate = modelMapper.map(user, User.class);
+
         List<Role> roles = user.getRoleNames().stream()
                 .map(roleService::findByName)
                 .toList();

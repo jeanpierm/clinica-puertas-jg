@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,5 +27,5 @@ public class UserDto {
     @Size(min = 8, max = 255, message = "Minimum password length: 8 characters")
     private String password;
 
-    private List<RoleName> roleNames;
+    private List<RoleName> roleNames = new ArrayList<>();
 }
