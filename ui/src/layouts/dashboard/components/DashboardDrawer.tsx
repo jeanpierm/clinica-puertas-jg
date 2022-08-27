@@ -1,9 +1,11 @@
 import { Avatar, Box, Divider, Drawer, styled, Typography } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Logo from '../../../components/Logo';
 import { useAuth } from '../../../contexts/AuthContext';
 import useResponsive from '../../../hooks/useResponsive';
+import { resolveRoleName } from '../../../pages/users/utils/resolveRoleName';
 import { stringAvatar } from '../../../utils/stringAvatar';
+import { inventoryListItem } from './inventoryListItem';
 import { mainListItem } from './mainListItem';
 import { securityListItem } from './securityListItem';
 
@@ -35,6 +37,8 @@ const DashboardDrawer: React.FC<Props> = ({ isDrawerOpen, handleDrawerToggle }) 
   const { currentUser } = useAuth();
   const { displayName, roleNames } = currentUser;
 
+  const principalRole: string = useMemo(() => resolveRoleName(roleNames[0]), [roleNames]);
+
   const content = (
     <Box>
       <Box sx={{ px: 2.5, py: 3, display: 'flex', justifyContent: 'center' }}>
@@ -49,13 +53,15 @@ const DashboardDrawer: React.FC<Props> = ({ isDrawerOpen, handleDrawerToggle }) 
               {displayName}
             </Typography>
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              {roleNames[0]}
+              {principalRole}
             </Typography>
           </Box>
         </AccountStyle>
       </Box>
 
       {mainListItem}
+      <Divider />
+      {inventoryListItem}
       <Divider />
       {securityListItem}
     </Box>

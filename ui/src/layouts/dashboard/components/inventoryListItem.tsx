@@ -1,6 +1,4 @@
-import SellIcon from '@mui/icons-material/Sell';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import GroupsIcon from '@mui/icons-material/Groups';
+import { Alarm, Lock, OpenInBrowser } from '@mui/icons-material';
 import {
   List,
   ListItem,
@@ -13,28 +11,28 @@ import { Link as RouterLink } from 'react-router-dom';
 
 export const items = [
   {
-    label: 'Ventas',
-    path: '/ventas',
-    icon: <SellIcon />,
+    label: 'Seguros',
+    path: '/seguros',
+    icon: <Lock />,
   },
   {
-    label: 'Compras',
-    path: '/compras',
-    icon: <ShoppingCartIcon />,
+    label: 'Elevadores',
+    path: '/elevadores',
+    icon: <OpenInBrowser />,
   },
   {
-    label: 'Proveedores',
-    path: '/proveedores',
-    icon: <GroupsIcon />,
+    label: 'Alarmas',
+    path: '/alarmas',
+    icon: <Alarm />,
   },
 ];
 
-export const mainListItem = (
+export const inventoryListItem = (
   <>
     <List
       subheader={
         <ListSubheader component='div' inset>
-          Principal
+          Inventario
         </ListSubheader>
       }
     >
