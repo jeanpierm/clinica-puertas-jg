@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
-import { GridToolbarContainer } from '@mui/x-data-grid';
+import { GridToolbar, GridToolbarContainer } from '@mui/x-data-grid';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,8 @@ const UsersDataGridToolbar: React.FC = () => {
   };
 
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
+      <GridToolbar />
       <Button color='primary' startIcon={<AddIcon />} onClick={handleCreateClick}>
         Crear usuario
       </Button>
