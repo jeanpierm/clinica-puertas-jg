@@ -16,29 +16,10 @@ const initialState: NotificationState = {
   autoHideDuration: 4500,
 };
 
-const UPDATE_USER_MESSAGE = 'Usuario actualizado exitosamente';
-const CREATE_USER_MESSAGE = 'Usuario creado exitosamente';
-const DELETE_USER_MESSAGE = 'Usuario eliminado exitosamente';
-
 export const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    createUserNotification: (state) => {
-      state.open = true;
-      state.message = CREATE_USER_MESSAGE;
-      state.severity = 'success';
-    },
-    updateUserNotification: (state) => {
-      state.open = true;
-      state.message = UPDATE_USER_MESSAGE;
-      state.severity = 'success';
-    },
-    deleteUserNotification: (state) => {
-      state.open = true;
-      state.message = DELETE_USER_MESSAGE;
-      state.severity = 'success';
-    },
     notification: (state, action: PayloadAction<NotificationPayload>) => {
       state.open = true;
       state.message = action.payload.message || initialState.message;
@@ -58,11 +39,4 @@ export const notificationSlice = createSlice({
   },
 });
 
-export const {
-  createUserNotification,
-  updateUserNotification,
-  deleteUserNotification,
-  closeNotification,
-  errorNotification,
-  notification,
-} = notificationSlice.actions;
+export const { closeNotification, errorNotification, notification } = notificationSlice.actions;

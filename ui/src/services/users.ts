@@ -1,11 +1,11 @@
 import {
   CreateUserRequest,
-  UpdateUserRequest,
+  PatchUserRequest,
   User,
   UserResponse,
   UsersResponse,
 } from '../models/user';
-import { providesList } from '../utils/providesList';
+import { providesList } from './util/providesList';
 import { api } from './api';
 
 export const usersApi = api.injectEndpoints({
@@ -26,12 +26,12 @@ export const usersApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Users', id: 'LIST' }],
     }),
-    updateUser: build.mutation<void, UpdateUserRequest>({
+    updateUser: build.mutation<void, PatchUserRequest>({
       query: (data) => {
         const { id, ...body } = data;
         return {
           url: `users/${id}`,
-          method: 'PUT',
+          method: 'PATCH',
           body,
         };
       },

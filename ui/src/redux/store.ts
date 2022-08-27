@@ -5,8 +5,9 @@ import { api } from '../services/api';
 
 export const store = configureStore({
   reducer: {
-    [api.reducerPath]: api.reducer,
+    auth: notificationSlice.reducer,
     notification: notificationSlice.reducer,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });

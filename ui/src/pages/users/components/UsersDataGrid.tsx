@@ -10,8 +10,14 @@ import {
 } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetUsersQuery } from '../../../services/users';
+import { UserMessages } from '../../../constants/messages';
+import { RoleName } from '../../../models/role';
 import { UserRowProps } from '../../../models/user';
+import { notification } from '../../../redux/slices/notificationSlice';
+import { useAppDispatch } from '../../../redux/store';
+import { useDeleteUserMutation, useGetUsersQuery } from '../../../services/users';
+import { UsersAdapter } from '../adapters/UsersAdapter';
+import { resolveRoleName } from '../utils/resolveRoleName';
 import UsersDataGridToolbar from './UsersDataGridToolbar';
 
 const ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100, 1000];
@@ -19,21 +25,16 @@ const PAGE_SIZE = ROWS_PER_PAGE_OPTIONS[0];
 
 const UsersDataGrid: React.FC = () => {
   const { data: users = [], isLoading } = useGetUsersQuery();
+  const [deleteUser, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete }] =
+    useDeleteUserMutation();
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE);
   const [rows, setRows] = useState<GridRowsProp<UserRowProps>>([]);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!isLoading) {
-      const rows: UserRowProps[] = users.map(({ id, name, surname, email, roleNames }) => ({
-        id,
-        name,
-        surname,
-        email,
-        roleNames,
-        password: '****',
-        isNew: false,
-      }));
+      const rows: UserRowProps[] = users.map(UsersAdapter.row);
       setRows(rows);
     }
   }, [isLoading, users]);
@@ -47,8 +48,14 @@ const UsersDataGrid: React.FC = () => {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    navigate(`crear/${id}`);
+    deleteUser(id.toString());
   };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      dispatch(notification({ message: UserMessages.delete, severity: 'success' }));
+    }
+  }, [isSuccessDelete, dispatch]);
 
   const columns: GridColumns = [
     {
@@ -60,32 +67,31 @@ const UsersDataGrid: React.FC = () => {
     {
       field: 'name',
       headerName: 'Nombre',
-      editable: true,
       minWidth: 150,
       flex: 1,
     },
     {
       field: 'surname',
       headerName: 'Apellido',
-      editable: true,
       minWidth: 150,
       flex: 1,
     },
     {
       field: 'email',
       headerName: 'Correo',
-      editable: true,
       minWidth: 200,
       flex: 1,
     },
     {
       field: 'roleNames',
-      type: 'singleSelect',
       headerName: 'Roles',
-      editable: true,
+      type: 'string',
       minWidth: 200,
       flex: 1,
-      valueOptions: [{ label: 'Administrador', value: 'ROLE_ADMIN' }],
+      valueGetter(params) {
+        const values = params.value as RoleName[];
+        return values.map(resolveRoleName).join(', ');
+      },
     },
     {
       field: 'actions',
@@ -131,7 +137,7 @@ const UsersDataGrid: React.FC = () => {
         }}
       >
         <DataGrid
-          loading={isLoading}
+          loading={isLoading || isLoadingDelete}
           rows={rows}
           isCellEditable={() => false}
           isRowSelectable={() => false}

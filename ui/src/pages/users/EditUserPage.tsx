@@ -1,14 +1,18 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import UserForm from './components/UserForm';
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 
 const EditUserPage: React.FC = () => {
   const { userId } = useParams();
 
   return (
     <>
-      <Typography variant='h4' component='h1' sx={{ textAlign: 'left', my: 4 }}>
+      <Button startIcon={<ArrowBack />} component={Link} to='/usuarios'>
+        Volver
+      </Button>
+      <Typography variant='h4' component='h1' sx={{ textAlign: 'center', my: 4 }}>
         Editar usuario
       </Typography>
       <Container>
