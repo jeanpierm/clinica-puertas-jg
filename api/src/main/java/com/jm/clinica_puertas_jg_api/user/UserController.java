@@ -2,6 +2,7 @@ package com.jm.clinica_puertas_jg_api.user;
 
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleService;
+import com.jm.clinica_puertas_jg_api.user.dto.PutUserDto;
 import com.jm.clinica_puertas_jg_api.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -47,13 +48,21 @@ public class UserController {
         return ResponseEntity.created(location).body(createdUser);
     }
 
-    @PutMapping(path = "{id}")
-    public ResponseEntity<Void> put(@PathVariable Long id, @Valid @RequestBody UserDto user) {
+    @PatchMapping(path = "{id}")
+    public ResponseEntity<Void> patch(@PathVariable Long id, @Valid @RequestBody UserDto user) {
         User userToUpdate = modelMapper.map(user, User.class);
+        List<Role> roles = roleService.findByRoleNames(user.getRoleNames());
+        userToUpdate.setRoles(roles);
 
-        List<Role> roles = user.getRoleNames().stream()
-                .map(roleService::findByName)
-                .toList();
+        userService.updateById(id, userToUpdate);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "{id}")
+    public ResponseEntity<Void> put(@PathVariable Long id, @Valid @RequestBody PutUserDto user) {
+        User userToUpdate = modelMapper.map(user, User.class);
+        List<Role> roles = roleService.findByRoleNames(user.getRoleNames());
         userToUpdate.setRoles(roles);
 
         userService.updateById(id, userToUpdate);

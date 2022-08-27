@@ -23,4 +23,10 @@ public class RoleService {
     public Role create(Role role) {
         return roleRepository.save(role);
     }
+
+    public List<Role> findByRoleNames(List<RoleName> roleNames) {
+        return roleNames.stream()
+                .map(this::findByName)
+                .toList();
+    }
 }
