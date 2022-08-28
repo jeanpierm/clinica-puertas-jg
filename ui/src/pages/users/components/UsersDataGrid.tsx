@@ -132,7 +132,6 @@ const UsersDataGrid: React.FC = () => {
     <>
       <Box
         sx={{
-          height: 500,
           width: '100%',
         }}
       >
@@ -143,6 +142,7 @@ const UsersDataGrid: React.FC = () => {
           isRowSelectable={() => false}
           columns={columns}
           editMode='row'
+          autoHeight
           pageSize={pageSize}
           rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
           onPageSizeChange={handlePageSizeChange}
