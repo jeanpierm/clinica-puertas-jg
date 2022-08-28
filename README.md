@@ -11,5 +11,6 @@
   - React ^18.2
   - TypeScript ^4.6
   - MUI (Material UI) ^5.10
+  - Redux Toolkit (RTK) & RTK Query ^1.8.4
   - React Hook Form ^7.34
   - Vite ^3.0
