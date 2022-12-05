@@ -7,16 +7,17 @@ import {
 } from '../models/user';
 import { providesList } from './util/providesList';
 import { api } from './api';
+import { ID_LIST, TYPE_USERS } from '../constants/users';
 
 export const usersApi = api.injectEndpoints({
   endpoints: (build) => ({
     getUsers: build.query<UsersResponse, void>({
       query: () => ({ url: 'users' }),
-      providesTags: (result) => providesList(result, 'Users'),
+      providesTags: (result) => providesList(result, TYPE_USERS),
     }),
     getUser: build.query<UserResponse, string>({
       query: (id) => ({ url: `users/${id}` }),
-      providesTags: (_result, _err, id) => [{ type: 'Users', id }],
+      providesTags: (_result, _err, id) => [{ type: TYPE_USERS, id }],
     }),
     createUser: build.mutation<User, CreateUserRequest>({
       query: (body) => ({
@@ -24,7 +25,7 @@ export const usersApi = api.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: TYPE_USERS, id: ID_LIST }],
     }),
     updateUser: build.mutation<void, PatchUserRequest>({
       query: (data) => {
@@ -35,14 +36,14 @@ export const usersApi = api.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: TYPE_USERS, id: ID_LIST }],
     }),
     deleteUser: build.mutation<void, string>({
       query: (id) => ({
         url: `users/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [{ type: 'Users', id: 'LIST' }],
+      invalidatesTags: [{ type: TYPE_USERS, id: ID_LIST }],
     }),
   }),
 });
