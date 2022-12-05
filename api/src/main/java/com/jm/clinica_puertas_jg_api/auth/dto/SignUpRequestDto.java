@@ -1,19 +1,22 @@
 package com.jm.clinica_puertas_jg_api.auth.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignUpRequestDto {
     @Size(max = 255)
-    private final String username;
+    private String username;
 
     @Size(max = 255)
     @Email
-    private final String email;
+    private String email;
 
     @Size(min = 8, max = 255, message = "Minimum password length: 8 characters")
-    private final String password;
+    private String password;
 }

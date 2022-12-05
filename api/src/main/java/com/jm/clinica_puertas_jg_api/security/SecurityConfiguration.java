@@ -1,17 +1,18 @@
 package com.jm.clinica_puertas_jg_api.security;
 
-import com.jm.clinica_puertas_jg_api.role.RoleName;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.jm.clinica_puertas_jg_api.role.RoleName;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,12 +29,11 @@ public class SecurityConfiguration {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Entry points
-        http.authorizeRequests()//
-                .antMatchers("/auth/sign-in").permitAll()
-                .antMatchers("/auth/sign-up").permitAll()
-                .antMatchers("/auth/refresh")
+        http.authorizeHttpRequests()//
+                .requestMatchers("/auth/sign-in", "/auth/sign-up").permitAll()
+                .requestMatchers("/auth/refresh")
                 .hasAnyAuthority(RoleName.ROLE_ADMIN.getAuthority(), RoleName.ROLE_CLIENT.getAuthority())
-                .antMatchers("/users/**").hasAnyAuthority(RoleName.ROLE_ADMIN.getAuthority())
+                .requestMatchers("/users/**").hasAnyAuthority(RoleName.ROLE_ADMIN.getAuthority())
                 // Disallow everything else..
                 .anyRequest().authenticated();
 
@@ -41,11 +41,6 @@ public class SecurityConfiguration {
         http.apply(new JwtFilterConfigurer(jwtProvider));
 
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/ignore1", "/ignore2");
     }
 
     @Bean

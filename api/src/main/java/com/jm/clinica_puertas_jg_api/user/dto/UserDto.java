@@ -1,15 +1,18 @@
 package com.jm.clinica_puertas_jg_api.user.dto;
 
 import com.jm.clinica_puertas_jg_api.role.RoleName;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class UserDto {
     @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
     private String username;

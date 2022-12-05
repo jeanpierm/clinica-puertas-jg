@@ -8,8 +8,8 @@ import com.jm.clinica_puertas_jg_api.auth.dto.SignUpResponseDto;
 import com.jm.clinica_puertas_jg_api.user.User;
 import lombok.RequiredArgsConstructor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;

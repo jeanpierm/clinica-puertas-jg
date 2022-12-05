@@ -7,5 +7,4 @@ public class RefreshResponseDto extends SignInResponseDto {
     public RefreshResponseDto(String accessToken, User userData) {
         super(accessToken, userData);
     }
-
 }

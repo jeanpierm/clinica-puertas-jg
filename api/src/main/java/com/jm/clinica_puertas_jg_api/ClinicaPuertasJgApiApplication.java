@@ -38,7 +38,7 @@ public class ClinicaPuertasJgApiApplication {
                         "jeanpi3rm@gmail.com",
                         "Jeanpier",
                         "Mendoza",
-                        "jeanpierm",
+                        "jeanpi3rm@gmail.com",
                         "12345678",
                         List.of(roleService.findByName(RoleName.ROLE_ADMIN)))
                 );
