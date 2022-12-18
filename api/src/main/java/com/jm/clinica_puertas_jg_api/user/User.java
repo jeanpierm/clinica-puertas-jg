@@ -47,9 +47,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-            CascadeType.REMOVE
-    })
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "app_user_role", joinColumns = @JoinColumn(name = "app_user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
