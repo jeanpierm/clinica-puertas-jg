@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserMessages } from '../../../constants/messages';
+import { useAuth } from '../../../contexts/AuthContext';
 import { RoleName } from '../../../models/role';
 import { UserRowProps } from '../../../models/user';
 import { notification } from '../../../redux/slices/notificationSlice';
@@ -24,6 +25,7 @@ const ROWS_PER_PAGE_OPTIONS = [10, 25, 50, 100, 1000];
 const PAGE_SIZE = ROWS_PER_PAGE_OPTIONS[0];
 
 const UsersDataGrid: React.FC = () => {
+  const { currentUser } = useAuth();
   const { data: users = [], isLoading } = useGetUsersQuery();
   const [deleteUser, { isLoading: isLoadingDelete, isSuccess: isSuccessDelete }] =
     useDeleteUserMutation();
@@ -47,7 +49,18 @@ const UsersDataGrid: React.FC = () => {
     navigate(`editar/${id}`);
   };
 
-  const handleDeleteClick = (id: GridRowId) => () => {
+  const handleDeleteClick = (id: GridRowId, row: any) => () => {
+    const isSameUser = currentUser.id.toString() === id.toString();
+    if (isSameUser) {
+      alert(
+        'No se puede eliminar a si mismo desde su propia cuenta. Por favor, ingrese con una cuenta ADMINISTRADOR diferente e inténtelo nuevamente.',
+      );
+      return;
+    }
+    const confirmValue = confirm(
+      `¿Está seguro de eliminar al usuario: ${id} - ${row.name} ${row.surname}?`,
+    ).valueOf();
+    if (!confirmValue) return;
     deleteUser(id.toString());
   };
 
@@ -99,7 +112,7 @@ const UsersDataGrid: React.FC = () => {
       headerName: 'Acciones',
       width: 100,
       cellClassName: 'actions',
-      getActions: ({ id }) => {
+      getActions: ({ id, row }) => {
         return [
           <GridActionsCellItem
             key={0}
@@ -120,7 +133,7 @@ const UsersDataGrid: React.FC = () => {
               </Tooltip>
             }
             label='Delete'
-            onClick={handleDeleteClick(id)}
+            onClick={handleDeleteClick(id, row)}
             color='error'
           />,
         ];
