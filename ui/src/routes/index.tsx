@@ -11,6 +11,9 @@ import HomePage from '../pages/home/HomePage';
 import DashboardLayout from '../layouts/dashboard/DashboardLayout';
 import CreateUserPage from '../pages/users/CreateUserPage';
 import EditUserPage from '../pages/users/EditUserPage';
+import SalesPage from '../pages/sales/SalesPage';
+import PurchasesPage from '../pages/purchases/PurchasesPage';
+import SuppliersPage from '../pages/suppliers/SuppliersPage';
 
 export const routes: RouteObject[] = [
   {
@@ -34,6 +37,9 @@ export const routes: RouteObject[] = [
     ),
     children: [
       { path: '/', element: <HomePage /> },
+      { path: 'ventas', element: <SalesPage /> },
+      { path: 'compras', element: <PurchasesPage /> },
+      { path: 'proveedores', element: <SuppliersPage /> },
       { path: 'seguros', element: <DoorLocksPage /> },
       { path: 'elevadores', element: <ElevatorsPage /> },
       { path: 'alarmas', element: <AlarmsPage /> },
