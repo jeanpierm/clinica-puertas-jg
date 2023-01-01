@@ -1,17 +1,27 @@
 package com.jm.clinica_puertas_jg_api.door_lock;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
-@RequestMapping("door-locks")
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.jm.clinica_puertas_jg_api.door_lock.dto.DoorLockRequestDto;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+@RequestMapping(path = DoorLockController.PATH)
 @RestController
 @RequiredArgsConstructor
 public class DoorLockController {
+
+    public static final String PATH = "/door-locks";
 
     private final DoorLockService doorLockService;
 
@@ -21,10 +31,14 @@ public class DoorLockController {
     }
 
     @PostMapping
-    public ResponseEntity<DoorLock> create(@RequestBody Map<String, Object> doorLock) {
-        System.out.println(doorLock.toString());
-        final URI uri = URI.create("");
-        final DoorLock createdDoorLock = doorLockService.create(doorLock);
+    public ResponseEntity<DoorLock> create(@Valid @RequestBody DoorLockRequestDto doorLock) {
+        DoorLock createdDoorLock = doorLockService.create(doorLock);
+        final URI uri = getDoorLockLocation(createdDoorLock);
         return ResponseEntity.created(uri).body(createdDoorLock);
+    }
+
+    private URI getDoorLockLocation(DoorLock doorLock) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(DoorLockController.PATH + "/doorLockId")
+                .buildAndExpand(doorLock.getId()).toUri();
     }
 }

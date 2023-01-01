@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping(path = UserController.PATH)
 @RequiredArgsConstructor
 public class UserController {
+
     public static final String PATH = "/users";
 
     private final UserService userService;

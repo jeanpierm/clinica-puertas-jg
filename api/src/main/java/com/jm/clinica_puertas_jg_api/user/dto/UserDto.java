@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class UserDto {
+
     @Size(min = 4, max = 255, message = "Minimum username length: 4 characters")
     private String username;
 

@@ -1,14 +1,19 @@
 package com.jm.clinica_puertas_jg_api.door_lock;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import com.jm.clinica_puertas_jg_api.door_lock.dto.DoorLockRequestDto;
+import com.jm.clinica_puertas_jg_api.door_lock.enums.Side;
+import com.jm.clinica_puertas_jg_api.util.CurrencyUtil;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DoorLockService {
 
     private final DoorLockRepository doorLockRepository;
@@ -17,11 +22,16 @@ public class DoorLockService {
         return doorLockRepository.findAll();
     }
 
-    DoorLock create(Map<String, Object> doorLockData) {
+    public DoorLock create(DoorLockRequestDto doorLockData) {
         DoorLock doorLock = new DoorLock();
-        doorLock.setName(doorLockData.get("name").toString());
-        doorLock.setPrice(new BigDecimal(doorLockData.get("price").toString()));
-        return doorLockRepository.save(doorLock);
+        doorLock.setName(doorLockData.getName());
+        doorLock.setBrand(doorLockData.getBrand());
+        doorLock.setSide(Side.valueOf(doorLockData.getSide()));
+        doorLock.setStock(doorLockData.getStock());
+        doorLock.setPrice(CurrencyUtil.integerToBigDecimal(doorLockData.getPrice()));
+        var createdDoorLock = doorLockRepository.save(doorLock);
+        log.info("Created door lock {}", createdDoorLock.getId());
+        return createdDoorLock;
     }
 
 }

@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
 
-  db:
-    image: postgres
+  clinica_puertas_jg_db:
+    image: postgres:latest
     restart: always
     ports:
       - "5432:5432"
