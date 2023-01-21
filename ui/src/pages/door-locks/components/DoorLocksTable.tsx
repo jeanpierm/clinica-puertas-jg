@@ -21,6 +21,10 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
+const onEdit = () => {
+  console.log('edit');
+};
+
 const DoorLocksTable = () => {
   return (
     <TableContainer component={Paper}>
@@ -56,7 +60,7 @@ const DoorLocksTable = () => {
               <TableCell align='right'>
                 <IconButton aria-label='editar' color='inherit'>
                   <Tooltip title='Editar'>
-                    <EditIcon />
+                    <EditIcon onClick={onEdit} />
                   </Tooltip>
                 </IconButton>
                 <IconButton aria-label='eliminar' color='error'>
