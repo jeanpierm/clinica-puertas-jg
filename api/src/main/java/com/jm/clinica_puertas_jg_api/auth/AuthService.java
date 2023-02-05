@@ -1,6 +1,7 @@
 package com.jm.clinica_puertas_jg_api.auth;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,8 +38,8 @@ public class AuthService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             User authenticatedUser = userService.findByUsername(username);
-            List<RoleName> roleNames = authenticatedUser.getRoleNames();
-            String token = jwtProvider.createToken(username, roleNames);
+            String token = jwtProvider.generateToken(authenticatedUser,
+                    Map.of(JwtProvider.CLAIM_KEY_ROLES, authenticatedUser.getGrantedAuthorities()));
             return new SignInResponseDto(token, authenticatedUser);
         } catch (AuthenticationException e) {
             log.info("Invalid credentials");
@@ -53,13 +54,15 @@ public class AuthService {
         user.setRoles(roles);
         User createdUser = userService.create(user);
 
-        String jwt = jwtProvider.createToken(user.getUsername(), user.getRoleNames());
+        String jwt = jwtProvider.generateToken(createdUser,
+                Map.of(JwtProvider.CLAIM_KEY_ROLES, createdUser.getGrantedAuthorities()));
         return new SignUpResponseDto(jwt, createdUser);
     }
 
     public RefreshResponseDto refresh(String username) {
         User authenticatedUser = userService.findByUsername(username);
-        String jwt = jwtProvider.createToken(authenticatedUser.getUsername(), authenticatedUser.getRoleNames());
+        String jwt = jwtProvider.generateToken(authenticatedUser,
+                Map.of(JwtProvider.CLAIM_KEY_ROLES, authenticatedUser.getGrantedAuthorities()));
         return new RefreshResponseDto(jwt, authenticatedUser);
     }
 }

@@ -1,6 +1,8 @@
 package com.jm.clinica_puertas_jg_api.user;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jm.clinica_puertas_jg_api.role.Role;
@@ -19,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity(name = "app_user")
 @Getter
@@ -63,6 +66,12 @@ public class User {
         return this.roles.stream().map(Role::getName).toList();
     }
 
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+        return getRoleNames()
+                .stream()
+                .map(s -> new SimpleGrantedAuthority(s.getAuthority()))
+                .collect(Collectors.toSet());
+    }
     public String getDisplayName() {
         return this.name + " " + this.surname;
     }

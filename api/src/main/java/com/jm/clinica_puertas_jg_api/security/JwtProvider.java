@@ -1,39 +1,40 @@
 package com.jm.clinica_puertas_jg_api.security;
 
-import com.jm.clinica_puertas_jg_api.role.RoleName;
+import java.security.Key;
+import java.util.Base64;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import com.jm.clinica_puertas_jg_api.user.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import jakarta.annotation.PostConstruct;
-import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
 
+    public static final String CLAIM_KEY_ROLES = "auth";
+
     private Key key;
 
     @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
+    private long validityInMilliseconds; // 1h
 
-    private final UserDetailsServiceImpl userDetailsService;
     private final Environment environment;
 
     @PostConstruct
@@ -45,45 +46,50 @@ public class JwtProvider {
         key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(String username, List<RoleName> roleNames) {
-        Claims claims = Jwts.claims().setSubject(username);
-        Set<SimpleGrantedAuthority> grantedAuthorities = roleNames
-                .stream()
-                .map(s -> new SimpleGrantedAuthority(s.getAuthority()))
-                .collect(Collectors.toSet());
-        claims.put("auth", grantedAuthorities);
+    public String generateToken(User user) {
+        return generateToken(user, new HashMap<>());
+    }
 
+    public String generateToken(User user, Map<String, Object> claims) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
                 .setClaims(claims)
+                .setSubject(user.getUsername())
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(key)
                 .compact();
     }
 
-    public UsernamePasswordAuthenticationToken getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getSubject(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    public String extractUsername(String token) {
+        return extractSubject(token);
     }
 
-    public String getSubject(String token) {
-        return getClaims(token).getSubject();
+    public String extractSubject(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
-
-    private Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-    }
-
-    public Boolean validateToken(String token) {
+    public boolean isJwtValid(String token, UserDetails userDetails) {
         try {
-            getClaims(token);
-            return true;
+            final String username = extractUsername(token);
+            return username.equals(userDetails.getUsername());
         } catch (JwtException | IllegalArgumentException e) {
             log.error("Invalid JWT: {}", e.getMessage());
             return false;
         }
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

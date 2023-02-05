@@ -21,7 +21,7 @@ public class ClinicaPuertasJgApiApplication {
     }
 
     @Bean
-    public ModelMapper modelMapper() {
+    ModelMapper modelMapper() {
         return new ModelMapper();
     }
 

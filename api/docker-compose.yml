@@ -2,7 +2,8 @@ version: '3.9'
 
 services:
 
-  clinica_puertas_jg_db:
+  postgres:
+    container_name: clinica_puertas_jg_db
     image: postgres:latest
     restart: always
     ports:
@@ -10,7 +11,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
     volumes:
-      - db_data:/var/lib/postgresql/data/
+      - clinica_puertas_jg_db_volume:/var/lib/postgresql/data/
 
 volumes:
-  db_data:
+  clinica_puertas_jg_db_volume:
