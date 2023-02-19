@@ -1,4 +1,4 @@
-package com.jm.clinica_puertas_jg_api.security;
+package com.jm.clinica_puertas_jg_api.config.jwt;
 
 import java.security.Key;
 import java.util.Base64;

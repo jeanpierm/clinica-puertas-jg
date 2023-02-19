@@ -1,4 +1,4 @@
-package com.jm.clinica_puertas_jg_api.security;
+package com.jm.clinica_puertas_jg_api.config.jwt;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jm.clinica_puertas_jg_api.config.UserDetailsServiceImpl;
 
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;

@@ -1,4 +1,4 @@
-package com.jm.clinica_puertas_jg_api.security;
+package com.jm.clinica_puertas_jg_api.config;
 
 import com.jm.clinica_puertas_jg_api.user.User;
 import com.jm.clinica_puertas_jg_api.user.UserRepository;

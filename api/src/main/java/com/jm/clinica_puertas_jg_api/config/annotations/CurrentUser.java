@@ -1,4 +1,4 @@
-package com.jm.clinica_puertas_jg_api.security.annotations;
+package com.jm.clinica_puertas_jg_api.config.annotations;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

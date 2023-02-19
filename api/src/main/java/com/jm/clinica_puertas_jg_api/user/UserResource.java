@@ -15,9 +15,9 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = UserController.PATH)
+@RequestMapping(path = UserResource.PATH)
 @RequiredArgsConstructor
-public class UserController {
+public class UserResource {
 
     public static final String PATH = "/users";
 
@@ -79,6 +79,6 @@ public class UserController {
 
     private URI getUserLocation(User user) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(UserController.PATH + "/{userId}").buildAndExpand(user.getId()).toUri();
+                .path(UserResource.PATH + "/{userId}").buildAndExpand(user.getId()).toUri();
     }
 }

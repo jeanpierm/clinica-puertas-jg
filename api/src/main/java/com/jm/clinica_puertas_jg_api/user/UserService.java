@@ -1,7 +1,7 @@
 package com.jm.clinica_puertas_jg_api.user;
 
-import com.jm.clinica_puertas_jg_api.exceptions.ConflictException;
-import com.jm.clinica_puertas_jg_api.exceptions.NotFoundException;
+import com.jm.clinica_puertas_jg_api.exception.ConflictException;
+import com.jm.clinica_puertas_jg_api.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

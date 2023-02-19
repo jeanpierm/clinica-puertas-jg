@@ -16,10 +16,10 @@ import com.jm.clinica_puertas_jg_api.door_lock.dto.DoorLockRequestDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping(path = DoorLockController.PATH)
+@RequestMapping(path = DoorLockResource.PATH)
 @RestController
 @RequiredArgsConstructor
-public class DoorLockController {
+public class DoorLockResource {
 
     public static final String PATH = "/door-locks";
 
@@ -38,7 +38,7 @@ public class DoorLockController {
     }
 
     private URI getDoorLockLocation(DoorLock doorLock) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path(DoorLockController.PATH + "/doorLockId")
+        return ServletUriComponentsBuilder.fromCurrentContextPath().path(DoorLockResource.PATH + "/doorLockId")
                 .buildAndExpand(doorLock.getId()).toUri();
     }
 }

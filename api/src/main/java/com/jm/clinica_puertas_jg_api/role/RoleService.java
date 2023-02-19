@@ -1,6 +1,6 @@
 package com.jm.clinica_puertas_jg_api.role;
 
-import com.jm.clinica_puertas_jg_api.exceptions.NotFoundException;
+import com.jm.clinica_puertas_jg_api.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

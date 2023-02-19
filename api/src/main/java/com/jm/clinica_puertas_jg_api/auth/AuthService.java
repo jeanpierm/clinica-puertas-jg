@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import com.jm.clinica_puertas_jg_api.auth.dto.RefreshResponseDto;
 import com.jm.clinica_puertas_jg_api.auth.dto.SignInResponseDto;
 import com.jm.clinica_puertas_jg_api.auth.dto.SignUpResponseDto;
-import com.jm.clinica_puertas_jg_api.exceptions.UnauthorizedException;
+import com.jm.clinica_puertas_jg_api.exception.UnauthorizedException;
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleName;
 import com.jm.clinica_puertas_jg_api.role.RoleService;
-import com.jm.clinica_puertas_jg_api.security.JwtProvider;
+import com.jm.clinica_puertas_jg_api.config.jwt.JwtProvider;
 import com.jm.clinica_puertas_jg_api.user.User;
 import com.jm.clinica_puertas_jg_api.user.UserService;
 
