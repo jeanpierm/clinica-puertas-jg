@@ -3,6 +3,8 @@ package com.jm.clinica_puertas_jg_api.door_lock;
 import java.net.URI;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +26,16 @@ public class DoorLockResource {
     public static final String PATH = "/door-locks";
 
     private final DoorLockService doorLockService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public List<DoorLock> get() {
-        return doorLockService.find();
+        return doorLockService.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<DoorLock> create(@Valid @RequestBody DoorLockRequestDto doorLock) {
+    public ResponseEntity<DoorLock> create(@Valid @RequestBody DoorLockRequestDto doorLockRequest) {
+        DoorLock doorLock = modelMapper.map(doorLockRequest, DoorLock.class);
         DoorLock createdDoorLock = doorLockService.create(doorLock);
         final URI uri = getDoorLockLocation(createdDoorLock);
         return ResponseEntity.created(uri).body(createdDoorLock);

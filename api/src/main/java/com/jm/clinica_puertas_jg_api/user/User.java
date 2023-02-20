@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.jm.clinica_puertas_jg_api.common.model.BaseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleName;
@@ -21,14 +24,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity(name = "app_user")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,16 +1,22 @@
 package com.jm.clinica_puertas_jg_api.user;
 
+import com.jm.clinica_puertas_jg_api.common.dto.ApiResponse;
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleService;
+import com.jm.clinica_puertas_jg_api.user.dto.FindUsersResponseDto;
 import com.jm.clinica_puertas_jg_api.user.dto.PutUserDto;
 import com.jm.clinica_puertas_jg_api.user.dto.UserDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
+
 import java.net.URI;
 import java.util.List;
 
@@ -25,9 +31,15 @@ public class UserResource {
     private final RoleService roleService;
     private final ModelMapper modelMapper;
 
-    @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+    @Operation(security = {@SecurityRequirement(name = "bearer-key")}, summary = "Find users", description = "Find users description")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<FindUsersResponseDto>> findAll() {
+        var response = ApiResponse.successTransaction(
+                FindUsersResponseDto.builder()
+                        .users(userService.findAll())
+                        .build()
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(path = "{id}")

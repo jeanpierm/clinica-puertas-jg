@@ -18,20 +18,18 @@ public class DoorLockService {
 
     private final DoorLockRepository doorLockRepository;
 
-    List<DoorLock> find() {
+    public List<DoorLock> findAll() {
         return doorLockRepository.findAll();
     }
 
-    public DoorLock create(DoorLockRequestDto doorLockData) {
-        DoorLock doorLock = new DoorLock();
-        doorLock.setName(doorLockData.getName());
-        doorLock.setBrand(doorLockData.getBrand());
-        doorLock.setSide(Side.valueOf(doorLockData.getSide()));
-        doorLock.setStock(doorLockData.getStock());
-        doorLock.setPrice(CurrencyUtil.integerToBigDecimal(doorLockData.getPrice()));
+    public DoorLock create(DoorLock doorLock) {
         var createdDoorLock = doorLockRepository.save(doorLock);
-        log.info("Created door lock {}", createdDoorLock.getId());
+        log.info("Created door lock with id: {}", createdDoorLock.getId());
         return createdDoorLock;
     }
 
+    public void createAll(List<DoorLock> doorLocks) {
+        var createdDoorLocks = doorLockRepository.saveAll(doorLocks);
+        log.info("Created door locks count: {}", createdDoorLocks.size());
+    }
 }

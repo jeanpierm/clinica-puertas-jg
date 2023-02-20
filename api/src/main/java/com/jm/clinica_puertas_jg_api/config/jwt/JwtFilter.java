@@ -16,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jm.clinica_puertas_jg_api.config.UserDetailsServiceImpl;
 
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,17 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
-        if (!StringUtils.hasText(jwt)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        String username = "";
-        try {
-            username = jwtProvider.extractUsername(jwt);
-        } catch (MalformedJwtException exception) {
-            sendInvalidTokenResponse(response, exception);
-            return;
-        }
+        String username = jwtProvider.extractUsername(jwt);
         if (!StringUtils.hasText(username) || SecurityContextHolder.getContext().getAuthentication() != null) {
             log.info("JWT has not subject/username or the security context has already an authentication... JWT is not valid");
             filterChain.doFilter(request, response);
@@ -59,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
             log.info("Unsuccessful authentication with JWT... JWT is not valid");
             // this is very important, since it guarantees the user is not authenticated at all
             SecurityContextHolder.clearContext();
-            sendInvalidTokenResponse(response);
+            filterChain.doFilter(request, response);
             return;
         }
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
@@ -71,6 +60,17 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("Successful authentication with JWT");
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        String jwt = getJwtFromRequest(request);
+        boolean shouldNot = path.equals("/auth/login")
+                || path.equals("/auth/register")
+                || !StringUtils.hasText(jwt);
+        log.debug("Path '{}' should not filter: {}", path, shouldNot);
+        return shouldNot;
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

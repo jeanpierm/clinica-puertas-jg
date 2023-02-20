@@ -1,5 +1,6 @@
 package com.jm.clinica_puertas_jg_api.role;
 
+import com.jm.clinica_puertas_jg_api.common.model.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
@@ -10,7 +11,7 @@ import jakarta.persistence.*;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Role {
+public class Role extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

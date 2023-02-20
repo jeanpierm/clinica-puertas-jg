@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
@@ -29,8 +29,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/auth/sign-in", "/auth/sign-up").permitAll()
                 .requestMatchers("/auth/refresh").hasAnyAuthority(RoleName.ROLE_ADMIN.getAuthority(), RoleName.ROLE_CLIENT.getAuthority())
                 .requestMatchers("/users/**").hasAnyAuthority(RoleName.ROLE_ADMIN.getAuthority())
-                // Disallow everything else..
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         // Apply JWT
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,5 +1,6 @@
 package com.jm.clinica_puertas_jg_api.door_lock;
 
+import com.jm.clinica_puertas_jg_api.common.model.BaseEntity;
 import lombok.*;
 
 import jakarta.persistence.Entity;
@@ -16,8 +17,10 @@ import com.jm.clinica_puertas_jg_api.door_lock.enums.Side;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class DoorLock {
+public class DoorLock extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
