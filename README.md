@@ -6,9 +6,10 @@ A management system to control sales, inventory and other aspects of the busines
 
 - API (REST)
   - Java 17
-  - Spring Boot 2.7.2
+  - Spring Boot 3.0.2
   - Spring Security (JWT implementation)
   - JPA / MySQL
+  - OpenAPI 3.0 + Swagger UI
 - UI (SPA)
   - React ^18.2
   - TypeScript ^4.6

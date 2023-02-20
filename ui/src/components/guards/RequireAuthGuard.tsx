@@ -11,7 +11,7 @@ const RequireAuthGuard: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshing]);
+  }, []);
 
   if (refreshing) return <FullScreenLoader />;
 

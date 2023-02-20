@@ -30,6 +30,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   };
 
   const refresh = async () => {
+    console.info('Refreshing JWT...');
     setRefreshing(true);
 
     const jwt = localStorage.getItem('accessToken');
