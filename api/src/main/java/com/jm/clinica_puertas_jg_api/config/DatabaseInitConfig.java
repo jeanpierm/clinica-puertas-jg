@@ -1,20 +1,21 @@
 package com.jm.clinica_puertas_jg_api.config;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import com.jm.clinica_puertas_jg_api.door_lock.DoorLock;
 import com.jm.clinica_puertas_jg_api.door_lock.DoorLockService;
-import com.jm.clinica_puertas_jg_api.door_lock.enums.Side;
 import com.jm.clinica_puertas_jg_api.role.Role;
 import com.jm.clinica_puertas_jg_api.role.RoleName;
 import com.jm.clinica_puertas_jg_api.role.RoleService;
 import com.jm.clinica_puertas_jg_api.user.User;
 import com.jm.clinica_puertas_jg_api.user.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
@@ -48,22 +49,22 @@ public class DatabaseInitConfig {
                                 .brand("CHEVROLET")
                                 .stock(10)
                                 .price(new BigDecimal("30.30"))
-                                .side(Side.RIGHT)
-                                .name("SEGURO DE PUERTA CHEVROLET")
+                                .side(DoorLock.Side.RIGHT)
+                                .description("SEGURO DE PUERTA CHEVROLET")
                                 .build(),
                         DoorLock.builder()
                                 .brand("TOYOTA")
                                 .stock(6)
                                 .price(new BigDecimal("37.35"))
-                                .side(Side.RIGHT)
-                                .name("SEGURO DE PUERTA TOYOTA")
+                                .side(DoorLock.Side.RIGHT)
+                                .description("SEGURO DE PUERTA TOYOTA")
                                 .build(),
                         DoorLock.builder()
                                 .brand("NISSAN")
                                 .stock(1)
                                 .price(new BigDecimal("28.30"))
-                                .side(Side.LEFT)
-                                .name("SEGURO DE PUERTA NISSAN")
+                                .side(DoorLock.Side.LEFT)
+                                .description("SEGURO DE PUERTA NISSAN")
                                 .build()
                         );
                 doorLockService.createAll(doorLocks);

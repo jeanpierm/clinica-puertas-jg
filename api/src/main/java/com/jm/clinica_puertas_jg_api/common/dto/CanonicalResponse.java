@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ApiResponse<T> {
+public class CanonicalResponse<T> {
     public static final String SUCCESS_TRANSACTION = "Success transaction";
 
     private String message;
     private T result;
 
-    public static <T> ApiResponse<T> successTransaction() {
-        return new ApiResponse<>(SUCCESS_TRANSACTION, null);
+    public static <T> CanonicalResponse<T> successTransaction() {
+        return new CanonicalResponse<>(SUCCESS_TRANSACTION, null);
     }
-    public static <T> ApiResponse<T> successTransaction(T result) {
-        return new ApiResponse<>(SUCCESS_TRANSACTION, result);
+    public static <T> CanonicalResponse<T> successTransaction(T result) {
+        return new CanonicalResponse<>(SUCCESS_TRANSACTION, result);
     }
 }

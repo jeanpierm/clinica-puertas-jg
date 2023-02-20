@@ -4,10 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.jm.clinica_puertas_jg_api.door_lock.dto.DoorLockRequestDto;
-import com.jm.clinica_puertas_jg_api.door_lock.enums.Side;
-import com.jm.clinica_puertas_jg_api.util.CurrencyUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

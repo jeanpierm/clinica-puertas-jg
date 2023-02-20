@@ -55,16 +55,16 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public OpenAPI customOpenAPI(@Value("${application-description}") String appDescription,
-                                 @Value("${application-version}") String appVersion) {
+    OpenAPI customOpenAPI(@Value("${application-version}") String appVersion) {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes("bearer-key",
-                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer")
+                                        .bearerFormat("JWT")))
                 .info(new Info()
-                        .title("Clínica de Puertas de Carros J & G - RESTful API")
+                        .title("Clínica de Puertas de Carros J & G RESTful API")
                         .version(appVersion)
-                        .description(appDescription)
+                        .description("Clínica de Puertas de Carros J & G Management System RESTful API")
                         .termsOfService("https://swagger.io/terms/")
                         .license(new License().name("Apache 2.0").url("https://springdoc.org")));
     }
