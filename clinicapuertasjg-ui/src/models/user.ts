@@ -1,3 +1,4 @@
+import { CanonicalResponse } from './common';
 import { RoleName } from './role';
 
 export interface UserAttributes {
@@ -31,7 +32,7 @@ export interface PatchUserRequest extends Partial<CreateUserRequest> {
   id: string;
 }
 
-export type UsersResponse = User[];
+export type UsersResponse = CanonicalResponse<{ users: User[] }>;
 export type UserResponse = User;
 
 export type UserFormData = {

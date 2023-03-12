@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class FindUsersResponseDto {
 
+    @Builder.Default
     private List<User> users = new ArrayList<>();
 }

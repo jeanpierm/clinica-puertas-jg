@@ -11,8 +11,9 @@ import { ID_LIST, TYPE_USERS } from '../constants/users';
 
 export const usersApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getUsers: build.query<UsersResponse, void>({
+    getUsers: build.query<User[], void>({
       query: () => ({ url: 'users' }),
+      transformResponse: (res: UsersResponse) => res.result?.users || [],
       providesTags: (result) => providesList(result, TYPE_USERS),
     }),
     getUser: build.query<UserResponse, string>({
